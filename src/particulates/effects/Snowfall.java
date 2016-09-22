@@ -17,7 +17,7 @@ public class Snowfall {
 
 	public enum shapes{SQUARE,CIRCLE,FILLEDSQUARE,FILLEDCIRCLE,ASTERIK};
 
-	public int velocity = 2;
+	public double velocity = 2;
 	
 	public shapes particleShape = shapes.ASTERIK;
 	public int particleSize = 8;

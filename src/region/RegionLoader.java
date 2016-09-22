@@ -17,6 +17,8 @@ import java.util.Scanner;
 import javax.imageio.ImageIO;
 
 import main.Registry;
+import particulates.effects.Snowfall;
+import particulates.particleCommons.ColorRange;
 
 public class RegionLoader{	
 	protected static int rowLen; //Value assigned in parseMap
@@ -34,13 +36,28 @@ public class RegionLoader{
 	static String[] map;
 	static String hMap;
 	static String oMap; 
-	static Color skyColor = new Color(0,192,255);
+	
+	static Color skyColor = Registry.nightBlack;
+	static Color mistColor = Registry.snowyNightMist;
+	
+	public static enum particulates{NONE,SNOW};
+	static particulates effect = particulates.SNOW;
+	
+	public static Snowfall snowEffect = new Snowfall(360, new ColorRange(Color.white));
 	
 	public static HashMap<String,Tile> mapKey = new HashMap<String,Tile>();	
 	public static HashMap<String,Overlay> overlayKey = new HashMap<String,Overlay>();
 	public static HashMap<String,Image> images = new HashMap<String,Image>();
 	
+	
+	public static void initEffects(){
+		Snowfall.width = 640;
+		Snowfall.height = 640;
+		snowEffect.velocity = .2;
+		snowEffect.initializeEffect();
+	}
 	public static void setMap(String filePath){	
+		initEffects();
 		TileReference.allTiles.clear();
 		
 		File f = new File(filePath);
@@ -130,5 +147,14 @@ public class RegionLoader{
 				thisTile.parent.drawTile(g, thisTile.height, TileReference.allTiles.get(i).coords, thisTile.parent, thisTile.overlay, "");
 			}
 		}
+		
+		if(effect == particulates.SNOW){
+			snowEffect.drawSnowfall(g);
+			Snowfall.width = width;
+			Snowfall.height = height;
+		}
+		
+		g.setColor(mistColor);
+		g.fillRect(0, 0, width, height);
 	}
 }

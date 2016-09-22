@@ -1,0 +1,134 @@
+package region;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Scanner;
+
+import javax.imageio.ImageIO;
+
+import main.Registry;
+
+public class RegionLoader{	
+	protected static int rowLen; //Value assigned in parseMap
+	
+	// The original offsets of board
+	public static final int origYOffset = 64;
+	public static final int origXOffset = 0;
+	
+	public static int yOffset = origYOffset;
+	public static int xOffset = origXOffset;
+		
+	public static int[] selected = new int[]{0,0};
+	public static int scrollSpeed = 4; //Speed at which keys move the screen around
+	
+	static String[] map;
+	static String hMap;
+	static String oMap; 
+	static Color skyColor = new Color(0,192,255);
+	
+	public static HashMap<String,Tile> mapKey = new HashMap<String,Tile>();	
+	public static HashMap<String,Overlay> overlayKey = new HashMap<String,Overlay>();
+	public static HashMap<String,Image> images = new HashMap<String,Image>();
+	
+	public static void setMap(String filePath){	
+		TileReference.allTiles.clear();
+		
+		File f = new File(filePath);
+		List<String> rawData = Registry.ReadFile(f);	
+		
+		// Normal Map //
+		String raw = "";
+
+		for(int i = 0; i<rawData.size(); i++){
+			if(!rawData.get(i).equalsIgnoreCase("#")){ raw+=rawData.get(i);}
+			else{ break;}
+		}
+
+		ArrayList<String> data = new ArrayList<String>();
+		int tileShift = 0;
+		rowLen = Integer.parseInt(raw.split("x")[0]);
+		raw = raw.split("x")[1];
+		while(raw.length() > 0){
+			data.add(raw.substring(0,rowLen+tileShift));
+			raw = raw.substring(rowLen + tileShift);
+			tileShift = (tileShift==1) ? 0:1;
+		}
+		
+		map = (String[]) data.toArray(new String[0]);
+		
+		// Height Map //
+		hMap = "";
+		int startIdx = rawData.indexOf("#");
+		for(int i = startIdx+1; i<rawData.size(); i++){
+				hMap+=rawData.get(i);
+		}
+		
+		// Overlay Map //
+		oMap = "";
+		for(int i = 0; i<rawData.size(); i++){
+				oMap+=rawData.get(i);
+		}
+		oMap = oMap.split("#")[2];
+	}
+	
+	
+	//////////////////////////////////////////////////
+	//				      DRAW MAPS		     		//
+	//////////////////////////////////////////////////
+	
+	public static void parseMap(Graphics g, int width, int height){
+		g.setColor(skyColor);
+		g.fillRect(0, 0, width, height);
+		
+		int[] xPoints = {-Tile.tileSize/2,0,Tile.tileSize/2,};
+		int[] yPoints = {0,-Tile.tileSize/2,0,Tile.tileSize/2};
+		
+		int tileShift = 0; //With a diamond shaped pattern, 1 extra is needed per row, this keeps track.
+		int cntr = 0; //Not for a 'for' loop for once!!!
+				
+		for(int y = 0; y<map.length; y++){
+			for(int x=0; x<map[0].length() + tileShift; x++){
+				/* Shift Every Other Tile Row */
+				for(int i = 0; i<xPoints.length;i++){
+					if((x==0)&& tileShift==1){ xPoints[i] += Tile.tileSize/2;}
+					else{ xPoints[i] += Tile.tileSize;}
+				}
+				
+				Tile thisTile = ((Tile)mapKey.get(map[y].substring(x,x+1)));
+				thisTile.drawTile(g, Integer.parseInt(hMap.substring(cntr,cntr+1)), new int[]{x,y}, thisTile, overlayKey.get(oMap.substring(cntr,cntr+1)), "");
+				cntr++;
+			}
+			
+			int[] xDefaultPoints = {-Tile.tileSize/2,0,Tile.tileSize/2,0};
+			xPoints = xDefaultPoints; //Resets X values to normal
+			tileShift = (tileShift==1) ? 0:1; //Invert Tile shift
+			
+			yPoints = RegionWindow.addToArray(yPoints,Tile.tileSize/2);
+		}
+	}
+	
+	public static void fastDrawMap(Graphics g, int width, int height){
+		g.setColor(skyColor);
+		g.fillRect(0, 0, width, height);
+		
+		for(int i = 0; i<TileReference.allTiles.size(); i++){
+			TileReference thisTile = TileReference.allTiles.get(i);
+			if(thisTile.selected){
+				thisTile.parent.drawTile(g, thisTile.height, TileReference.allTiles.get(i).coords, TileReference.parentSelected, thisTile.overlay, "");
+			}
+			else{
+				thisTile.parent.drawTile(g, thisTile.height, TileReference.allTiles.get(i).coords, thisTile.parent, thisTile.overlay, "");
+			}
+		}
+	}
+}

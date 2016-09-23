@@ -7,7 +7,7 @@ public class ConstructorClass extends JApplet implements ActionListener, KeyList
 	public static int fps = 200;
 	private Timer timer; // The timer that drives the animation.
 	private JPanel frame; // Where the frames are drawn.
-	
+	public static final Font font= new Font("SanSerif", Font.BOLD, 30);
 	private boolean focused = false; // When applet is focused
 
 	public ConstructorClass() { // Constructor
@@ -19,24 +19,20 @@ public class ConstructorClass extends JApplet implements ActionListener, KeyList
 				
 				// Draw Border //
 				if(!focused){
-					g.setColor(ConstructorClass.this.getForeground()); // Draw Text as well
-					g.drawString("Paused", 10, height - 12);
-					
-					g.setColor(ConstructorClass.this.getBackground());
-					
+					g.setColor(Color.black);
 					g.drawRect(0, 0, width - 1, height - 1);
 					g.drawRect(1, 1, width - 3, height - 3);
 					g.drawRect(2, 2, width - 5, height - 5);
+					
+					g.setColor(new Color(0,0,0,156));
+					g.fillRect(0, 0, width, height);
 				}
 			
 			}
 		};
 		
 		setContentPane(frame);
-		setBackground(Color.red); // Color for border
-		setForeground(Color.red); // Color for text
 		
-		frame.setFont(new Font("SanSerif", Font.BOLD, 30)); // Default font
 		frame.addFocusListener(this);
 		frame.addKeyListener(this);
 		addMouseListener(this);

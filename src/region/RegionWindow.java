@@ -29,7 +29,7 @@ public class RegionWindow extends ConstructorClass{
 			RegionLoader.parseMap(g, width,height);
 			firstFrame = false;
 		}
-		
+			
 		RegionLoader.fastDrawMap(g,width,height);
 	}
 	

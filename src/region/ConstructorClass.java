@@ -6,7 +6,7 @@ import javax.swing.*;
 public class ConstructorClass extends JApplet implements ActionListener, KeyListener, FocusListener, MouseListener {
 	public static int fps = 200;
 	private Timer timer; // The timer that drives the animation.
-	private JPanel frame; // Where the frames are drawn.
+	public static JPanel frame; // Where the frames are drawn.
 	public static final Font font= new Font("SanSerif", Font.BOLD, 30);
 	private boolean focused = false; // When applet is focused
 

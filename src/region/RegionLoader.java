@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 import main.Registry;
 import particulates.effects.Snowfall;

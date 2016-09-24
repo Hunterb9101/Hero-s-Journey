@@ -2,15 +2,19 @@ package main;
 
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
+import region.ConstructorClass;
 import region.Overlay;
 import region.RegionLoader;
 import region.Tile;
@@ -28,11 +32,7 @@ public class Registry {
 
 	static String imgLoadError = "Error loading image: ";
 
-	public static List<String> ReadFile(File filePath) { // This is still in
-															// it's primitive
-															// form, and
-															// ReadFile should
-															// be used instead
+	public static List<String> ReadFile(File filePath) { 
 		String fLine = "";
 		List<String> fDataRaw = new ArrayList<String>(); // All Data in a file
 		if (filePath.exists()) {
@@ -57,11 +57,15 @@ public class Registry {
 	}
 
 	public static Image loadImage(String path) {
+		System.out.println("Loaded resource: " + path);
 		Image img = null;
 		try {
-			img = ImageIO.read(new File(path));
-			if (img == null) {
-				System.out.println(imgLoadError + path);
+			if(path.substring(path.indexOf(".")).equals(".gif")){
+				System.out.println("Found animation: " + path);
+				img = new ImageIcon(path).getImage();
+			}
+			else{
+				img = ImageIO.read(new File(path));
 			}
 		} catch (IOException e) {
 			System.out.println(imgLoadError + path);
@@ -78,8 +82,10 @@ public class Registry {
 		Tile dirt = new Tile("dirtTile.png", "dirtSide.png");
 		Tile snow = new Tile("snowTile.png", "dirtSide.png");
 
-		Overlay house = new Overlay("houseOverlay.png");
+		Overlay house = new Overlay("christmashouseOverlay.gif");
 		Overlay fence = new Overlay("fenceOverlay.png");
+		Overlay pineTree = new Overlay("pinetreeOverlay2.png");
+		Overlay snowyPineTree = new Overlay("snowypinetreeOverlay.png");
 		/* Key for the map */
 		RegionLoader.mapKey.put("0", grass);
 		grass.borderColor = darkGreen;
@@ -94,7 +100,8 @@ public class Registry {
 		RegionLoader.overlayKey.put("0", null);
 		RegionLoader.overlayKey.put("1", house);
 		RegionLoader.overlayKey.put("2", fence);
-		RegionLoader.overlayKey.put("3", pineTrees);
+		RegionLoader.overlayKey.put("3", pineTree);
+		RegionLoader.overlayKey.put("4", snowyPineTree);
 
 		/* Images for Region */
 		File folder = new File(regionGraphicsPath);

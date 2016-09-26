@@ -71,7 +71,7 @@ public class RegionLoader{
 			if(!rawData.get(i).equalsIgnoreCase("#")){ raw+=rawData.get(i);}
 			else{ break;}
 		}
-
+		
 		ArrayList<String> data = new ArrayList<String>();
 		int tileShift = 0;
 		rowLen = Integer.parseInt(raw.split("x")[0]);

@@ -86,6 +86,7 @@ public class Registry {
 		Overlay fence = new Overlay("fenceOverlay.png");
 		Overlay pineTree = new Overlay("pinetreeOverlay2.png");
 		Overlay snowyPineTree = new Overlay("snowypinetreeOverlay.png");
+		
 		/* Key for the map */
 		RegionLoader.mapKey.put("0", grass);
 		grass.borderColor = darkGreen;

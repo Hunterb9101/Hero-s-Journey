@@ -20,7 +20,7 @@ public class RegionWindow extends ConstructorClass{
 	
 	public void init(int width, int height){
 		Registry.registerMaps();
-		RegionLoader.setMap("maps/SnowyMap");
+		RegionLoader.setMap("maps/snowyMap");
 		this.setSize(640,640);
 	}
 	

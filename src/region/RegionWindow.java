@@ -53,7 +53,9 @@ public class RegionWindow extends ConstructorClass{
 		try{
 			RegionLoader.selected = Tile.selectTile(evt.getX(), evt.getY());
 			TileReference.allTiles.get(Tile.getIdxNum(RegionLoader.selected[0], RegionLoader.selected[1], RegionLoader.rowLen)).selected = true;
-		}catch(NullPointerException e){}
+		}catch(NullPointerException e){
+			
+		}
 	}
 	
 	public void keyReleased(KeyEvent evt){

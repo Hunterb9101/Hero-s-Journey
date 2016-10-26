@@ -56,7 +56,7 @@ public class Snowfall {
 		for(int i = 0; i<particleNum; i++){
 			dX = 0;
 			dY = velocity + rand.nextDouble()*velocity;
-			newParticle = new Particle(new Point(rand.nextInt(width),rand.nextInt(height)),dX,dY,0,particleColor.generateColor());
+			newParticle = new Particle(new Point(rand.nextInt(width),rand.nextInt(height)),particleSize,dX,dY,0,0,particleColor.generateColor());
 			newParticle.size = rand.nextInt(particleVariability) + particleSize - particleVariability/2;
 			allParticles.add(newParticle);	
 		}
@@ -75,39 +75,13 @@ public class Snowfall {
 
 				dX = 0;
 				dY = velocity + rand.nextDouble()*velocity;
-				newParticle = new Particle(new Point(rand.nextInt(width),1),dX,dY,0,particleColor.generateColor());
+				newParticle = new Particle(new Point(rand.nextInt(width),1),particleSize,dX,dY,0,0,particleColor.generateColor());
 				newParticle.size = rand.nextInt(particleVariability) + particleSize - particleVariability/2;
 				
 				allParticles.add(newParticle);
 			}
 			else{
-				p.currX+=allParticles.get(i).deltX;
-				p.currY+=allParticles.get(i).deltY;
-
-				g.setColor(p.color);
-				
-				int drawX = (int) (p.currX -(p.size/2));
-				int drawY = (int) (p.currY -(p.size/2));
-				switch(particleShape){
-				case SQUARE:
-					g.drawRect(drawX,drawY, p.size, p.size);
-					break;
-				case CIRCLE:
-					g.drawOval(drawX,drawY, p.size, p.size);
-					break;
-				case FILLEDSQUARE:
-					g.fillRect(drawX,drawY, p.size, p.size);
-					break;
-				case FILLEDCIRCLE:
-					g.fillOval(drawX,drawY, p.size, p.size);
-					break;
-				
-				case ASTERIK:
-					//drawX = g.getFontMetrics().stringWidth("*")/2;
-					g.setFont(new Font("TimesRoman", Font.PLAIN, p.size*3)); 
-					g.drawString("*", drawX, drawY);
-					break;
-				}
+				this.drawSnowfall(g);
 			}
 		}
 		currLife++;

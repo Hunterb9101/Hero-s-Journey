@@ -22,22 +22,21 @@ public class MainEnvironment extends ConstructorClass {
 		Snowfall.height = 600;
 		s.velocity = 2;
 		s.initializeEffect();
-		
 	}
 	
 	synchronized public void drawFrame(Graphics g, int width, int height) {
 		this.setSize(600,600);
-		
-		e = new Firework3D(120,40,ColorRange.rainbow);
-		e.particleSize = 5;
-		e.velocity = 8;
-		e.particleShape = Explosion.shapes.FILLEDCIRCLE;
 		
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, width, height);
 		
 		Explosion.drawAll(g);
 		System.out.println(Explosion.allExplosions.size());
+		
+		e = new Firework3D(120,40,ColorRange.rgb,"");
+		e.particleSize = 5;
+		e.velocity = 8;
+		e.particleShape = Explosion.shapes.FILLEDCIRCLE;
 	}
 
 	public void mousePressed(MouseEvent evt){

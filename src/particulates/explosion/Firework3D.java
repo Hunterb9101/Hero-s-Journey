@@ -10,8 +10,8 @@ import particulates.particleCommons.Particle;
 public class Firework3D extends Explosion {
 	public enum Shapes3D{SPHERE};
 	public Shapes3D fireworkShape = Shapes3D.SPHERE;
-	public Firework3D(int iParticles, int iDur, ColorRange iColorRange) {
-		super(iParticles, iDur, iColorRange);
+	public Firework3D(int iParticles, int iDur, ColorRange iColorRange, String commands) {
+		super(iParticles, iDur, iColorRange,commands);
 		Explosion.allExplosions.add(this);
 		particleMinLife = (int) (.75 * lifeLength);
 	}

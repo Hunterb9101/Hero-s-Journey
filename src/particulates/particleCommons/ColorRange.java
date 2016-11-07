@@ -14,7 +14,7 @@ public class ColorRange{
 	public static final ColorRange pastel = new ColorRange(new Color(196,196,196),new Color(255,255,255)); // Has pastel-like colors
 	public static final ColorRange blueScale = new ColorRange(Color.black,Color.BLUE); //Blueish Scale
 	public static final ColorRange dark = new ColorRange(Color.black, new Color(60,60,60)); //Dark Colors
-	
+	public static final ColorRange rgb = new ColorRange(new Color[]{Color.red,Color.blue,Color.green});
 	Random rand = new Random();
 	public ArrayList<Color> allowedColors = new ArrayList<Color>();
 	int[][] colorRange = new int[2][3];

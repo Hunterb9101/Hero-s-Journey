@@ -22,15 +22,15 @@ public class Explosion {
 	public ColorRange particleColor;
 	
 	protected ArrayList<Particle> allParticles = new ArrayList<>();
-	int particleNum; // Number of particles
-	int particleMinLife;
+	protected int particleNum; // Number of particles
+	protected int particleMinLife;
 
 	protected int currLife = 0; //Current frame of Explosion
 	public int lifeLength; //Maximum life of Explosion
 
 	public boolean changesColor = false;
 	
-	public Explosion(int particleNum, int lifeLength, ColorRange particleColor){
+	public Explosion(int particleNum, int lifeLength, ColorRange particleColor, String commands){
 		this.lifeLength = lifeLength;
 		particleMinLife = (int) (.075*lifeLength);
 		this.particleNum = particleNum;

@@ -12,11 +12,15 @@ public class ColorRange{
 	public static final ColorRange christmas = new ColorRange(christmasScheme);
 	public static final ColorRange rainbow = new ColorRange(Color.black,Color.white); // Contains all Colors
 	public static final ColorRange pastel = new ColorRange(new Color(196,196,196),new Color(255,255,255)); // Has pastel-like colors
-	public static final ColorRange blueScale = new ColorRange(Color.black,Color.BLUE); //Blueish Scale
+	public static final ColorRange blueScale = new ColorRange(Color.gray,Color.BLUE); //Blueish Scale
 	public static final ColorRange dark = new ColorRange(Color.black, new Color(60,60,60)); //Dark Colors
 	public static final ColorRange rgb = new ColorRange(new Color[]{Color.red,Color.blue,Color.green});
+	
 	Random rand = new Random();
+	
 	public ArrayList<Color> allowedColors = new ArrayList<Color>();
+	boolean isList = false;
+	
 	int[][] colorRange = new int[2][3];
 	char dominantColor = 'n';
 
@@ -81,11 +85,9 @@ public class ColorRange{
 		dominantColor = dominant;
 	}
 	
-	public ColorRange(ArrayList<Color> colors){
-		allowedColors = colors;
-	}
 	public ColorRange(Color[] colors){
 		allowedColors = new ArrayList<Color>(Arrays.asList(colors));
+		isList = true;
 	}
 	
 	public Color generateColor(){
@@ -114,6 +116,25 @@ public class ColorRange{
 				}
 			}
 			return new Color(hues[0],hues[1],hues[2]);
+		}
+	}
+	
+	public static Color findClosestColor(Color c, ColorRange list){
+		if(list.isList){
+			Color similarColor = Color.GREEN;
+			int diff = 765;
+			Color currColor;
+			for(int i = 0; i<list.allowedColors.size(); i++){
+				currColor = list.allowedColors.get(i);
+				if(Math.abs(currColor.getRed()-c.getRed()) + Math.abs(currColor.getGreen()-c.getGreen()) + Math.abs(currColor.getBlue()-c.getBlue()) < diff){
+					diff = Math.abs(currColor.getRed()-c.getRed()) + Math.abs(currColor.getGreen()-c.getGreen()) + Math.abs(currColor.getBlue()-c.getBlue());
+					similarColor = currColor;
+				}
+			}
+			return similarColor;
+		}
+		else{
+			throw new IllegalArgumentException();
 		}
 	}
 }

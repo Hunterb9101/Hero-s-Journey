@@ -13,7 +13,7 @@ public class Explosion {
 	public static ArrayList<Explosion> allExplosions = new ArrayList<>();
 	protected Random rand = new Random(); //for random number generation
 
-	protected Point origin; //Explosion Origin
+	public Point origin; //Explosion Origin
 	public int velocity = 2;
 	
 	public enum shapes{SQUARE,CIRCLE,FILLEDSQUARE,FILLEDCIRCLE,ASTERIK};
@@ -21,16 +21,16 @@ public class Explosion {
 	public int particleSize = 1;
 	public ColorRange particleColor;
 	
-	protected ArrayList<Particle> allParticles = new ArrayList<>();
+	public ArrayList<Particle> allParticles = new ArrayList<>();
 	protected int particleNum; // Number of particles
 	protected int particleMinLife;
 
-	protected int currLife = 0; //Current frame of Explosion
+	protected int maxExplosionLife = 0; //Current frame of Explosion
 	public int lifeLength; //Maximum life of Explosion
 
 	public boolean changesColor = false;
 	
-	public Explosion(int particleNum, int lifeLength, ColorRange particleColor, String commands){
+	public Explosion(int particleNum, int lifeLength, ColorRange particleColor){
 		this.lifeLength = lifeLength;
 		particleMinLife = (int) (.075*lifeLength);
 		this.particleNum = particleNum;
@@ -51,16 +51,13 @@ public class Explosion {
 	public void draw(Graphics g){
 		for(int i = 0; i<allParticles.toArray().length;i++){
 			Particle p = allParticles.get(i);
-			if(p.lifespan < currLife){allParticles.remove(i);}
+			if(p.lifeSpan < p.currLife || p.prematureDeath){allParticles.remove(i);} //Needed for cleanup
 			else{
 				// Move Particle //
 				p.currX+=allParticles.get(i).deltX;
 				p.currY+=allParticles.get(i).deltY;
-				
+				p.update();
 				// Set Color //
-				p.applyDistanceFadeEffect();
-				p.applyDistanceEffect();
-				p.applyVelocityDecay();
 				g.setColor(p.color);
 
 				// Draw Shape //				
@@ -88,7 +85,6 @@ public class Explosion {
 				}
 			}
 		if(allParticles.size() == 0){allExplosions.remove(this);}
-		currLife++;
 	}
 }
 

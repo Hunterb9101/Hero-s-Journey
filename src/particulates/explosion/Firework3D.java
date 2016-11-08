@@ -3,16 +3,20 @@ package particulates.explosion;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.util.ArrayList;
 
 import particulates.particleCommons.ColorRange;
+import particulates.particleCommons.Effect;
 import particulates.particleCommons.Particle;
 
 public class Firework3D extends Explosion {
-	public enum Shapes3D{SPHERE};
-	public Shapes3D fireworkShape = Shapes3D.SPHERE;
-	public Firework3D(int iParticles, int iDur, ColorRange iColorRange, String commands) {
-		super(iParticles, iDur, iColorRange,commands);
+	public Particle.Shapes3D fireworkShape = Particle.Shapes3D.SPHERE;
+	public ArrayList<Effect> particleEffects;
+	
+	public Firework3D(int iParticles, int iDur, ColorRange iColorRange, ArrayList<Effect> particleEffects) {
+		super(iParticles, iDur, iColorRange);
 		Explosion.allExplosions.add(this);
+		this.particleEffects = particleEffects;
 		particleMinLife = (int) (.75 * lifeLength);
 	}
 	
@@ -22,8 +26,6 @@ public class Firework3D extends Explosion {
 		double dX = 0;
 		double dY = 0;
 		double dZ = 0;
-		
-		currLife = 0;
 		
 		for(int i = 0; i<particleNum; i++){
 			switch(fireworkShape){
@@ -47,7 +49,7 @@ public class Firework3D extends Explosion {
 			Color color = particleColor.generateColor();
 			color = new Color(color.getRed(),color.getGreen(),color.getBlue(),196);
 			
-			allParticles.add(new Particle(origin,particleSize,dX,dY,dZ,rand.nextInt(lifeLength-particleMinLife) + particleMinLife,color));
+			allParticles.add(new Particle(this,particleEffects));
 		}
 	}
 }

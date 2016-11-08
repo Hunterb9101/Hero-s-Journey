@@ -56,7 +56,7 @@ public class Snowfall {
 		for(int i = 0; i<particleNum; i++){
 			dX = 0;
 			dY = velocity + rand.nextDouble()*velocity;
-			newParticle = new Particle(new Point(rand.nextInt(width),rand.nextInt(height)),particleSize,dX,dY,0,0,particleColor.generateColor());
+			newParticle = new Particle(new Point(rand.nextInt(width),rand.nextInt(height)),particleSize,dX,dY,0,0,particleColor.generateColor(),null);
 			newParticle.size = rand.nextInt(particleVariability) + particleSize - particleVariability/2;
 			allParticles.add(newParticle);	
 		}
@@ -75,7 +75,7 @@ public class Snowfall {
 
 				dX = 0;
 				dY = velocity + rand.nextDouble()*velocity;
-				newParticle = new Particle(new Point(rand.nextInt(width),1),particleSize,dX,dY,0,0,particleColor.generateColor());
+				newParticle = new Particle(new Point(rand.nextInt(width),1),particleSize,dX,dY,0,0,particleColor.generateColor(),null);
 				newParticle.size = rand.nextInt(particleVariability) + particleSize - particleVariability/2;
 				
 				allParticles.add(newParticle);

@@ -26,6 +26,7 @@ public class RegionWindow extends ConstructorClass{
 	
 	public void draw(Graphics g, int width, int height){
 		if(firstFrame){
+			//RegionLoader.generateMap(g, width, height, 50, 50);
 			RegionLoader.parseMap(g, width,height);
 			firstFrame = false;
 		}

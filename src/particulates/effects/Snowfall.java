@@ -81,7 +81,7 @@ public class Snowfall {
 				allParticles.add(newParticle);
 			}
 			else{
-				this.drawSnowfall(g);
+				//drawSnowfall(g);
 			}
 		}
 		currLife++;

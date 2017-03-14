@@ -33,16 +33,16 @@ public class SemFin2 extends Applet implements ActionListener{
 
 		WordFly w4 = new WordFly(100,100, rand.nextDouble()*2-1,rand.nextDouble()*2-1,width,height);
 		w4.colorer = ColorRange.dark;
-
-		// #8 drawCircles(g,300,300);
-		// #9 randLines(g);
+		g.setColor(Color.GREEN);
+		//drawCircles(g,300,300);
+		randLines(g);
 		// #10 randLinesWithRefresh(g);
 		// #11 and #12
 		while(true){
-			w.drawWord(g,"Hunter");
-			w2.drawWord(g,"RAINBOWS!");
-			w3.drawWord(g,"FIRE!!!");
-			w4.drawWord(g,"Word...");
+			//w.drawWord(g,"Hunter");
+			//w2.drawWord(g,"RAINBOWS!");
+			//w3.drawWord(g,"FIRE!!!");
+			//w4.drawWord(g,"Word...");
 		}
 	}
 

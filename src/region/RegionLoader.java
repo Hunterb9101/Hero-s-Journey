@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
@@ -57,6 +58,7 @@ public class RegionLoader{
 		snowEffect.velocity = .2;
 		snowEffect.initializeEffect();
 	}
+	
 	public static void setMap(String filePath){	
 		initEffects();
 		TileReference.allTiles.clear();
@@ -103,7 +105,59 @@ public class RegionLoader{
 	//////////////////////////////////////////////////
 	//				      DRAW MAPS		     		//
 	//////////////////////////////////////////////////
+	public static void generateMap(Graphics g, int width, int height, int mapWidth, int mapHeight){
+		g.setColor(skyColor);;
+		g.fillRect(0, 0, width, height);
+		
+		String[][] heightMap = smootherNoise(smootherNoise(pinkNoise(5,mapWidth,mapHeight)));
+		int[] xPoints = {-Tile.tileSize/2,0,Tile.tileSize/2,};
+		int[] yPoints = {0,-Tile.tileSize/2,0,Tile.tileSize/2};
+		
+		int tileShift = 0; //With a diamond shaped pattern, 1 extra is needed per row, this keeps track.
+		int cntr = 0; //Not for a 'for' loop for once!!!
+		
+		for(int y = 0; y<mapHeight-1; y++){
+			for(int x=0; x<mapWidth-1 + tileShift; x++){
+				/* Shift Every Other Tile Row */
+				for(int i = 0; i<xPoints.length;i++){
+					if((x==0)&& tileShift==1){ xPoints[i] += Tile.tileSize/2;}
+					else{ xPoints[i] += Tile.tileSize;}
+				}
+				
+				Tile thisTile = mapKey.get("0");
+				thisTile.drawTile(g, Integer.parseInt(heightMap[x][y]), new int[]{x,y}, thisTile, null, "");
+				cntr++;
+			}
+			
+			int[] xDefaultPoints = {-Tile.tileSize/2,0,Tile.tileSize/2,0};
+			xPoints = xDefaultPoints; //Resets X values to normal
+			tileShift = (tileShift==1) ? 0:1; //Invert Tile shift
+			
+			yPoints = RegionWindow.addToArray(yPoints,Tile.tileSize/2);
+		}		
+	}
 	
+	public static String[][] pinkNoise(int amplitude, int width, int height){
+		Random rand = new Random();
+		
+		String[][] randMap = new String[width][height];
+		for(int i = 0; i<width; i++){
+			for(int j=0; j<height; j++){
+				randMap[i][j] = String.valueOf(rand.nextInt(amplitude));
+			}
+		}
+		return randMap;
+	}
+	
+	public static String[][] smootherNoise(String[][] noise){
+		String[][] newNoise = noise;
+		for(int i = 0; i<noise.length - 1; i++){
+			for(int j = 0; j<noise[i].length - 1; j++){
+				newNoise[i][j] = String.valueOf(Math.round(.25 * (Integer.parseInt(noise[i][j])+Integer.parseInt(noise[i][j+1])+Integer.parseInt(noise[i+1][j])+Integer.parseInt(noise[i+1][j+1])))); 
+			}
+		}
+		return newNoise;
+	}
 	public static void parseMap(Graphics g, int width, int height){
 		g.setColor(skyColor);
 		g.fillRect(0, 0, width, height);

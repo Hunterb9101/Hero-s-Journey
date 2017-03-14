@@ -7,8 +7,6 @@ import javax.swing.*;
 public class ConstructorClass extends JApplet implements
 		ActionListener, KeyListener, FocusListener, MouseListener {
 	
-	private static final long serialVersionUID = 1L;
-	
 	protected void doInitialization(int width, int height) {
 	}
 

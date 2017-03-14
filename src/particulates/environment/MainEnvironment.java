@@ -6,12 +6,12 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import particulates.effects.Snowfall;
-import particulates.explosion.*;
+import particulates.explosion.Explosion;
+import particulates.explosion.Firework3D;
 import particulates.particleCommons.ColorRange;
 import particulates.particleCommons.Effect;
-
+import particulates.environment.*;
 public class MainEnvironment extends ConstructorClass {
-	private static final long serialVersionUID = 1L;
 	int explosionState = 0;
 	Firework3D e;
 	Snowfall s = new Snowfall(180,new ColorRange(Color.white));
@@ -36,8 +36,13 @@ public class MainEnvironment extends ConstructorClass {
 		
 		ArrayList<Effect> myEffects = new ArrayList<Effect>();
 		myEffects.add(new Effect("velocityDecay",0,-1));
-		myEffects.add(new Effect("distanceFade",0,-1));
 		myEffects.add(new Effect("distanceSize",0,-1));
+		/*
+		myEffects.add(new Effect("similarFade",0,40,ColorRange.christmas));
+		myEffects.add(new Effect("sparkle",80,-1,ColorRange.christmas));
+		myEffects.add(new Effect("explode",100,-1,Color.WHITE));
+		*/
+		
 		
 		myEffects.add(new Effect("similarFade",0,40,ColorRange.rgb));
 		myEffects.add(new Effect("sparkle",35,20,ColorRange.rgb));
@@ -53,10 +58,10 @@ public class MainEnvironment extends ConstructorClass {
 		
 		myEffects.add(new Effect("explode",115,-1,Color.WHITE));
 		
-		e = new Firework3D(180,120,ColorRange.rainbow,myEffects);
+		e = new Firework3D(240,120,ColorRange.rainbow,myEffects);
 		e.particleSize = 5;
 		e.velocity = 6;
-		e.particleShape = Explosion.shapes.FILLEDCIRCLE;
+		e.particleShape = Explosion.shapes.CIRCLE;
 	}
 
 	public void mousePressed(MouseEvent evt){
